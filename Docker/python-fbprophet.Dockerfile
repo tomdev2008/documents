@@ -40,11 +40,18 @@ RUN wget https://bootstrap.pypa.io/ez_setup.py && \
     easy_install-2.7 pip && \
     pip2.7 install --upgrade pip
 
-# Install tornado
-RUN pip install tornado
+# Install tornado + fbprophet + futures
+RUN pip install tornado && \
+    pip install fbprophet && \
+    pip install futures
 
-# Install fbprophet
-RUN pip install fbprophet
+# Install 
+WORKDIR /www/stream-predict-service
+COPY . /www/stream-predict-service
 
-# port
+# Port
 EXPOSE 9090
+
+# Entrypoint
+RUN chmod 777 ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
